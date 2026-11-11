@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Francisco · Porto — Welcome</title>
+<meta name="theme-color" content="#0b0b0a">
+<meta name="description" content="Coffee, focaccia and good company.">
+<meta property="og:title" content="Francisco · Porto">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<style>
+:root{--primary:#12372a;--bg:#0b0b0a;--surface:#f8f6f1;--light:#f4efe6;--accent:#ff5a5f;
+--display:'Instrument Serif','Times New Roman',serif;--ui:'Inter',system-ui,sans-serif}
+*{-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;background:var(--bg);color:#fff;font-family:var(--ui);overflow:hidden}
+.display{font-family:var(--display)}
+.view{position:fixed;inset:0;transition:transform .85s cubic-bezier(.7,0,.15,1),opacity .6s,visibility 0s}
+.view.off{pointer-events:none;visibility:hidden;transition:transform .85s cubic-bezier(.7,0,.15,1),opacity .6s,visibility 0s .85s}
+#hub.off{transform:translateY(-35%);opacity:0}   /* hub slides up and fades */
+#menu.off{transform:translateY(100%)}            /* menu rises from below */
+#menu:not(.off) .cat{animation:drop .6s both;animation-delay:calc(var(--i)*80ms + 500ms)} /* categories drop in one by one */
+#menu:not(.off) #brand{animation:drop .6s .4s both}
+@keyframes drop{from{opacity:0;transform:translateY(-26px)}}
+/* HUB */
+#hub{display:flex;align-items:center;justify-content:center;padding:24px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+#hub .bg{position:absolute;inset:0;background:radial-gradient(circle at 70% 30%,#3a3a33,#15150f 60%);filter:blur(30px);transform:scale(1.1)}
+#hub .shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.35),rgba(0,0,0,.95))}
+.stack{position:relative;width:100%;max-width:600px;text-align:center}
+.rise{opacity:0;transform:translateY(14px);animation:rise .7s forwards}
+@keyframes rise{to{opacity:1;transform:none}}
+.btn{display:flex;align-items:center;justify-content:space-between;width:100%;height:64px;padding:0 28px;border-radius:999px;font-size:17px;
+border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);backdrop-filter:blur(14px);color:#fff;text-decoration:none;cursor:pointer;transition:transform .15s,background .2s;margin-top:14px}
+.btn:hover{background:rgba(255,255,255,.12)}.btn:active{transform:scale(.98)}
+.btn.primary{background:#fff;color:#111;justify-content:center;gap:10px;border:0}
+.btn.primary:hover{background:#eee}
+:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media(min-width:768px){.btn{height:80px}}
+/* MODAL */
+#overlay{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .3s}
+#overlay.open{opacity:1;pointer-events:auto}
+#sheet{position:absolute;left:50%;bottom:0;width:100%;max-width:670px;background:var(--surface);color:#222;border-radius:32px 32px 0 0;
+padding:14px 36px calc(28px + env(safe-area-inset-bottom,0px));transform:translate(-50%,100%);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+#overlay.open #sheet{transform:translate(-50%,0)}
+.lbl{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:#6b6b66}
+.row{border-top:1px solid #e3dfd6;padding:20px 0}
+.val{font-family:var(--display);font-size:32px;color:#1a1a18}
+.pill{border-radius:999px;cursor:pointer;transition:transform .15s}
+.pill:active{transform:scale(.96)}
+/* MENU */
+#scroller{height:100%;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none;scroll-behavior:smooth}
+#scroller::-webkit-scrollbar{display:none}
+.slide{position:relative;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
+.slide .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s ease-out;transform:scale(1.02)}
+.slide.active .img{transform:scale(1.08)}
+.slide .g{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.45),transparent 25%,transparent 45%,rgba(0,0,0,.85))}
+.txt{position:absolute;left:0;bottom:0;padding:20px 20px 110px;max-width:760px}
+@media(min-width:768px){.txt{padding:32px 56px 110px}}
+.txt>*{opacity:0;transform:translateY(14px);transition:opacity .6s,transform .6s}
+.slide.active .txt>*{opacity:1;transform:none}
+.slide.active .txt>:nth-child(2){transition-delay:.1s}.slide.active .txt>:nth-child(3){transition-delay:.2s}
+.name{font-family:var(--display);font-size:clamp(44px,8vw,96px);line-height:.95;letter-spacing:-.02em;margin:0}
+.desc{font-size:clamp(15px,2vw,18px);opacity:.8;max-width:480px;margin:16px 0 28px}
+.chip{font-family:var(--display);font-size:28px;padding:8px 24px;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);border-radius:20px}
+.cust{font-size:13px;letter-spacing:.25em;color:#cfcfcf;background:none;border:0;cursor:pointer;margin-left:16px}
+.circle{border-radius:999px;display:grid;place-items:center;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);color:#fff;cursor:pointer;transition:transform .2s}
+.heart{width:64px;height:64px;margin-left:16px}
+.heart svg{width:26px;height:26px;fill:none;stroke:#fff;stroke-width:1.8}
+.heart[aria-pressed=true] svg{fill:var(--accent);stroke:var(--accent)}
+.heart.pop{animation:pop .35s}@keyframes pop{50%{transform:scale(1.25)}}
+#head{position:fixed;top:0;left:0;right:0;z-index:20;padding:calc(18px + env(safe-area-inset-top,0px)) 20px 0}
+@media(min-width:768px){#head{padding-left:32px}}
+#pills{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;margin-top:16px;padding-bottom:6px}
+#pills::-webkit-scrollbar{display:none}
+.cat{flex:none;padding:13px 24px;font-size:15px;color:#fff;background:rgba(120,120,120,.45);backdrop-filter:blur(12px);border:0;transition:all .25s}
+.cat[aria-current=true]{background:#fff;color:#111;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+#prog{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(22px + env(safe-area-inset-bottom,0px));z-index:20;display:flex;gap:6px;width:min(170px,40vw)}
+#prog i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.3);transition:background .3s}
+#prog i.on{background:#fff}
+#up{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(44px + env(safe-area-inset-bottom,0px));z-index:20;width:52px;height:52px}
+#cOverlay{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.45);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .3s}
+#cOverlay.open{opacity:1;pointer-events:auto}
+#cSheet{position:absolute;left:0;right:0;bottom:0;max-height:88dvh;overflow-y:auto;background:#0b0b0b;border-radius:32px 32px 0 0;padding:14px 36px calc(24px + env(safe-area-inset-bottom,0px));transform:translateY(100%);transition:transform .55s cubic-bezier(.2,.8,.2,1)}
+#cOverlay.open #cSheet{transform:none}
+.cg{font-size:12px;letter-spacing:.3em;color:#8a8a85;text-transform:uppercase;margin:30px 0 12px}
+.co{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 0;border:0;border-top:1px solid #222;background:none;color:#fff;text-align:left;cursor:pointer;font:inherit;font-size:19px}
+.co small{display:block;color:#8a8a85;margin-top:5px;font-size:13px}
+.ind{width:30px;height:30px;border-radius:50%;border:1px solid #444;display:grid;place-items:center;font-size:15px;color:#bbb;flex:none;transition:all .2s}
+.co[aria-checked=true] .ind{background:#fff;color:#000;border-color:#fff}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<!-- HUB -->
+<main id="hub" class="view">
+  <div class="bg"></div><div class="shade"></div>
+  <div class="stack">
+    <p class="rise" style="font-size:12px;letter-spacing:.4em;color:#bbb;margin:0 0 18px" id="city"></p>
+    <h1 class="rise display" id="logo" style="font-size:clamp(64px,14vw,120px);line-height:.9;margin:0;color:var(--light);animation-delay:.1s"></h1>
+    <p class="rise" id="tag" style="color:#c9c9c4;font-size:17px;margin:20px 0 36px;animation-delay:.2s"></p>
+    <a class="btn primary rise" href="#discover" style="animation-delay:.3s">Explore Menu <span>→</span></a>
+    <a class="btn rise" id="review" target="_blank" rel="noopener noreferrer" style="animation-delay:.4s">Leave a Google Review <span>↗</span></a>
+    <button class="btn rise" id="wifiBtn" style="animation-delay:.5s">Connect to Wi-Fi <span>›</span></button>
+  </div>
+</main>
+
+<!-- MENU -->
+<section id="menu" class="view off" aria-label="Menu">
+  <header id="head">
+    <a href="#" id="brand" class="display" style="font-size:24px;color:#fff;text-decoration:none"></a>
+    <nav id="pills" aria-label="Categories"></nav>
+  </header>
+  <div id="scroller"></div>
+  <div id="prog" aria-hidden="true"></div>
+  <button id="up" class="circle" aria-label="Previous item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+</section>
+
+<!-- WIFI MODAL -->
+<div id="overlay" role="dialog" aria-modal="true" aria-labelledby="wt">
+  <div id="sheet">
+    <div style="width:48px;height:4px;border-radius:4px;background:#c9c5bb;margin:0 auto 26px"></div>
+    <p class="lbl" id="wt" style="margin:0 0 20px"></p>
+    <div class="row"><p class="lbl" style="margin:0 0 6px">Network</p><div class="val" id="ssid"></div></div>
+    <div class="row" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div><p class="lbl" style="margin:0 0 6px">Password</p><div class="val" id="pass"></div></div>
+      <button id="copy" class="pill" style="background:var(--primary);color:#fff;padding:16px 30px;font-weight:500;border:0">Copy</button>
+    </div>
+    <button id="close" class="pill" style="width:100%;padding:18px;border:1px solid #ddd8cd;background:none;color:#555;margin-top:8px">Close</button>
+  </div>
+</div>
+
+<!-- CUSTOMIZE SHEET (drinks only) -->
+<div id="cOverlay" role="dialog" aria-modal="true" aria-labelledby="cTitle">
+  <div id="cSheet">
+    <div style="width:48px;height:4px;border-radius:4px;background:#444;margin:0 auto 34px"></div>
+    <h2 id="cTitle" class="display" style="font-size:36px;margin:0"></h2>
+    <p id="cSub" style="color:#9a9a95;font-size:15px;margin:10px 0 0"></p>
+    <div id="cBody" role="group"></div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #222;margin-top:24px;padding-top:24px">
+      <span class="cg" style="margin:0">Total</span><span class="display" id="cTotal" style="font-size:28px"></span>
+    </div>
+    <button id="cDone" style="display:block;margin:20px 0 0 auto;letter-spacing:.3em;font-size:13px;color:#ccc;background:none;border:0;cursor:pointer;text-transform:uppercase;padding:12px">Done</button>
+  </div>
+</div>
+
+<script>
+/* ============ CONFIG / DATA (edit per client) ============ */
+const BRAND_CONFIG = {
+  name:'Francisco', city:'PORTO', tagline:'Coffee, focaccia and good company.',
+  review:'https://g.page/r/YOUR_REVIEW_ID/review',
+  wifi:{ssid:'Francisco', pass:'YOUR_WIFI_PASSWORD'},
+  currency:v=>v.toFixed(2).replace('.',',')+' €'
+};
+// MEDIA SLOTS: per product set image:'https://…jpg' and/or video:'https://…mp4' (video plays muted, looping).
+// With neither, a gradient placeholder is shown. custom:true shows the "CUSTOMIZE →" link.
+const MENU_DATA = [
+ {cat:'Category 1',items:[
+  {name:'Product Name 1.1',desc:'A short description of the product goes here, in one or two lines.',price:8,image:'',video:'',hue:12},
+  {name:'Product Name 1.2 With a Longer Title',desc:'Another short description, just like the reference layout.',price:9.5,image:'',video:'',hue:30},
+  {name:'Product Name 1.3',desc:'Short description placeholder for the third item.',price:7.5,image:'',video:'',hue:5}]},
+ {cat:'Category 2',items:[
+  {name:'Product Name 2.1',desc:'A short description of the product goes here.',price:9,image:'',video:'',hue:45},
+  {name:'Product Name 2.2',desc:'Short description placeholder.',price:3.5,image:'',video:'',hue:35},
+  {name:'Product Name 2.3',desc:'Short description placeholder.',price:4.2,image:'',video:'',hue:55}]},
+ {cat:'Category 3',items:[
+  {name:'Product Name 3.1',desc:'A short, dense description of this customizable item.',price:1.5,image:'',video:'',hue:25,custom:true},
+  {name:'Product Name 3.2',desc:'Short description placeholder.',price:3.2,image:'',video:'',hue:28,custom:true},
+  {name:'Product Name 3.3',desc:'Short description placeholder.',price:3,image:'',video:'',hue:22,custom:true}]},
+ {cat:'Category 4',items:[
+  {name:'Product Name 4.1',desc:'Short description placeholder.',price:3.8,image:'',video:'',hue:200,custom:true},
+  {name:'Product Name 4.2',desc:'Short description placeholder.',price:3.5,image:'',video:'',hue:180,custom:true},
+  {name:'Product Name 4.3',desc:'Short description placeholder.',price:4,image:'',video:'',hue:160,custom:true}]},
+ {cat:'Category 5',items:[
+  {name:'Product Name 5.1',desc:'Short description placeholder.',price:4,image:'',video:'',hue:100,custom:true},
+  {name:'Product Name 5.2',desc:'Short description placeholder.',price:3.5,image:'',video:'',hue:300,custom:true},
+  {name:'Product Name 5.3',desc:'Short description placeholder.',price:2,image:'',video:'',hue:260,custom:true}]}
+];
+
+/* ============ HELPERS ============ */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let likes={};
+try{likes=JSON.parse(localStorage.getItem('likes')||'{}')}catch(e){}
+const saveLikes=()=>{try{localStorage.setItem('likes',JSON.stringify(likes))}catch(e){}};
+const flat=[];MENU_DATA.forEach((c,ci)=>c.items.forEach(it=>flat.push({...it,ci})));
+
+/* ============ RENDER ============ */
+$('#city').textContent=BRAND_CONFIG.city;
+$('#logo').textContent=BRAND_CONFIG.name;
+$('#tag').textContent=BRAND_CONFIG.tagline;
+$('#review').href=BRAND_CONFIG.review;
+$('#brand').textContent=BRAND_CONFIG.name;
+$('#wt').textContent=BRAND_CONFIG.name+' Wi-Fi';
+$('#ssid').textContent=BRAND_CONFIG.wifi.ssid;
+$('#pass').textContent=BRAND_CONFIG.wifi.pass;
+
+$('#pills').innerHTML=MENU_DATA.map((c,i)=>`<button class="cat pill" style="--i:${i}" data-ci="${i}">${esc(c.cat)}</button>`).join('');
+$('#scroller').innerHTML=flat.map((p,i)=>{
+  const bg=p.image?`url('${p.image}')`:`linear-gradient(135deg,hsl(${p.hue} 55% 38%),hsl(${p.hue+20} 45% 14%))`;
+  return `<article class="slide" data-i="${i}" data-ci="${p.ci}">
+   ${p.video?`<video class="img" src="${p.video}" poster="${p.image||''}" autoplay muted loop playsinline style="object-fit:cover;width:100%;height:100%"></video>`:`<div class="img" style="background-image:${bg}"></div>`}<div class="g"></div>
+   <div class="txt">
+    <h2 class="name">${esc(p.name)}</h2>
+    <p class="desc">${esc(p.desc)}</p>
+    <div style="display:flex;align-items:center">
+      <span class="chip">${BRAND_CONFIG.currency(p.price)}</span>
+      ${p.custom?'<button class="cust" data-custom>CUSTOMIZE →</button>':''}
+      <button class="circle heart" data-i="${i}" aria-label="Like ${esc(p.name)}" aria-pressed="${!!likes[p.name]}">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.6-9.3-9.2C1.2 8.6 3 5 6.4 5c2 0 3.6 1.1 4.6 2.7h2C14 6.1 15.600 5 17.600 5 21 5 22.800 8.600 21.300 11.800 19 16.400 12 21 12 21z"/></svg>
+      </button>
+    </div>
+   </div>
+  </article>`}).join('');
+
+/* ============ MENU BEHAVIOUR ============ */
+const sc=$('#scroller'),slides=[...document.querySelectorAll('.slide')],cats=[...document.querySelectorAll('.cat')];
+let cur=-1;
+function activate(i){
+  if(i===cur)return;const prevCi=cur>=0?flat[cur].ci:-1;cur=i;
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  const ci=flat[i].ci;
+  cats.forEach((b,k)=>{b.setAttribute('aria-current',k===ci);if(k===ci)b.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})});
+  const idxs=flat.map((p,k)=>p.ci===ci?k:-1).filter(k=>k>=0);
+  if(prevCi!==ci)$('#prog').innerHTML=idxs.map(()=>'<i></i>').join('');
+  [...$('#prog').children].forEach((el,k)=>el.classList.toggle('on',idxs[k]===i));
+  $('#up').style.display=i===0?'none':'grid';
+  const nxt=slides[i+1]&&flat[i+1].image;if(nxt)new Image().src=nxt;
+}
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)activate(+e.target.dataset.i)}),{root:sc,threshold:.6});
+slides.forEach(s=>io.observe(s));
+cats.forEach(b=>b.onclick=()=>slides.find(s=>+s.dataset.ci===+b.dataset.ci).scrollIntoView({behavior:'smooth'}));
+$('#up').onclick=()=>slides[Math.max(0,cur-1)].scrollIntoView({behavior:'smooth'});
+document.addEventListener('keydown',e=>{
+  if($('#menu').classList.contains('off')||$('#overlay').classList.contains('open')||$('#cOverlay').classList.contains('open'))return;
+  if(['ArrowDown','PageDown'].includes(e.key)){e.preventDefault();slides[Math.min(slides.length-1,cur+1)].scrollIntoView({behavior:'smooth'})}
+  if(['ArrowUp','PageUp'].includes(e.key)){e.preventDefault();slides[Math.max(0,cur-1)].scrollIntoView({behavior:'smooth'})}
+});
+sc.addEventListener('click',e=>{
+  const h=e.target.closest('.heart');
+  if(h){const p=flat[+h.dataset.i];likes[p.name]=!likes[p.name];h.setAttribute('aria-pressed',likes[p.name]);
+    h.classList.remove('pop');void h.offsetWidth;h.classList.add('pop');saveLikes()}
+  if(e.target.closest('[data-custom]'))openC(+e.target.closest('.slide').dataset.i);
+});
+
+/* ============ ROUTER ============ */
+function route(){
+  const m=location.hash==='#discover';
+  $('#hub').classList.toggle('off',m);$('#menu').classList.toggle('off',!m);
+  document.title=m?`${BRAND_CONFIG.name} — ${BRAND_CONFIG.tagline.replace(/\.$/,'')}`:`${BRAND_CONFIG.name} · ${BRAND_CONFIG.city[0]+BRAND_CONFIG.city.slice(1).toLowerCase()} — Welcome`;
+  if(m&&cur<0)activate(0);
+}
+addEventListener('hashchange',route);route();
+
+/* ============ CUSTOMIZE SHEET ============ */
+// Edit groups per client. type: 'radio' (pick one, first is default) or 'check' (multiple).
+const CUSTOM_OPTIONS={
+  title:'Make it yours',
+  sub:'Discover the possibilities — tell your barista what you love.',
+  groups:[
+    {label:'Milk',type:'radio',options:[{name:'Normal Milk',price:0},{name:'Oat Milk (plant-based milk)',price:.5}]},
+    {label:'Extras',type:'check',options:[{name:'Extra Espresso Shot',price:.7},{name:'Take Away Cup',price:.3}]}
+  ]};
+const cOv=$('#cOverlay');let cProd=null,cSel={},cOpener=null;
+function cTotal(){let t=cProd.price;CUSTOM_OPTIONS.groups.forEach((g,gi)=>cSel[gi].forEach(o=>t+=g.options[o].price));return t}
+function renderC(){
+  $('#cTitle').textContent=CUSTOM_OPTIONS.title;$('#cSub').textContent=CUSTOM_OPTIONS.sub;
+  $('#cBody').innerHTML=CUSTOM_OPTIONS.groups.map((g,gi)=>`<p class="cg">${esc(g.label)}</p>`+g.options.map((o,oi)=>{
+    const on=cSel[gi].includes(oi),r=g.type==='radio';
+    return `<button class="co" role="${r?'radio':'checkbox'}" aria-checked="${on}" data-g="${gi}" data-o="${oi}"><span>${esc(o.name)}<small>+${BRAND_CONFIG.currency(o.price)}</small></span><span class="ind">${r?(on?'●':''):(on?'✓':'+')}</span></button>`}).join('')).join('');
+  $('#cTotal').textContent=BRAND_CONFIG.currency(cTotal());
+}
+function openC(i){
+  cProd=flat[i];cOpener=document.activeElement;cSel={};
+  CUSTOM_OPTIONS.groups.forEach((g,gi)=>cSel[gi]=g.type==='radio'?[0]:[]);
+  renderC();cOv.classList.add('open');setTimeout(()=>$('#cDone').focus(),350);
+}
+function closeC(){cOv.classList.remove('open');cOpener&&cOpener.focus()}
+$('#cBody').addEventListener('click',e=>{
+  const b=e.target.closest('.co');if(!b)return;
+  const gi=+b.dataset.g,oi=+b.dataset.o,g=CUSTOM_OPTIONS.groups[gi];
+  if(g.type==='radio')cSel[gi]=[oi];
+  else cSel[gi]=cSel[gi].includes(oi)?cSel[gi].filter(x=>x!==oi):[...cSel[gi],oi];
+  renderC();
+});
+$('#cDone').onclick=closeC;
+cOv.addEventListener('click',e=>{if(e.target===cOv)closeC()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&cOv.classList.contains('open'))closeC()});
+let cy=null;const cs=$('#cSheet');
+cs.addEventListener('touchstart',e=>cy=cs.scrollTop===0?e.touches[0].clientY:null,{passive:true});
+cs.addEventListener('touchend',e=>{if(cy!==null&&e.changedTouches[0].clientY-cy>90)closeC();cy=null});
+
+/* ============ WIFI MODAL ============ */
+const ov=$('#overlay');let opener=null;
+function openM(){opener=document.activeElement;ov.classList.add('open');setTimeout(()=>$('#copy').focus(),300)}
+function closeM(){ov.classList.remove('open');opener&&opener.focus()}
+$('#wifiBtn').onclick=openM;$('#close').onclick=closeM;
+ov.addEventListener('click',e=>{if(e.target===ov)closeM()});
+document.addEventListener('keydown',e=>{
+  if(!ov.classList.contains('open'))return;
+  if(e.key==='Escape')closeM();
+  if(e.key==='Tab'){const f=[$('#copy'),$('#close')];const i=f.indexOf(document.activeElement);
+    e.preventDefault();f[(i+(e.shiftKey?-1:1)+2)%2].focus()}
+});
+let y0=null;const sh=$('#sheet');
+sh.addEventListener('touchstart',e=>y0=e.touches[0].clientY,{passive:true});
+sh.addEventListener('touchend',e=>{if(y0!==null&&e.changedTouches[0].clientY-y0>80)closeM();y0=null});
+$('#copy').onclick=async()=>{
+  const t=BRAND_CONFIG.wifi.pass;
+  try{await navigator.clipboard.writeText(t)}catch(e){
+    const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();
+    try{document.execCommand('copy')}catch(_){}a.remove()}
+  try{navigator.vibrate&&navigator.vibrate(30)}catch(e){}
+  const b=$('#copy');b.textContent='Copied ✓';setTimeout(()=>b.textContent='Copy',2000);
+};
+</script>
+</body>
+</html>
